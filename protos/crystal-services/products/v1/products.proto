@@ -1,0 +1,94 @@
+syntax="proto3";
+import "google/api/annotations.proto";
+package products.v1;
+option go_package = "github.com/Dmitriy-M1319/crystal-services/pkg/crystal-services/products/v1;products";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+      title: "Products Service";
+      version: "v1.0";
+  };
+
+  schemes: HTTP;
+  schemes: HTTPS;
+  consumes: "application/json";
+  produces: "application/json";
+};
+
+service ProductsService {
+    rpc GetProducts(ProductFilters) returns (Products) {
+        option (google.api.http) = {
+            get: "/v1/products"
+        };
+    }
+
+    rpc GetProductById(ProductId) returns (Product) {
+        option (google.api.http) = {
+            get: "/v1/products/{id}"
+        };
+    }
+
+    rpc InsertProduct(Product) returns (Product) {
+        option (google.api.http) = {
+            post: "/v1/products"
+            body: "*"
+        };
+    }
+
+    rpc UpdateProduct(ProductPutRequest) returns (Product) {
+        option (google.api.http) = {
+            put: "/v1/products/{id}"
+            body: "*"
+        };
+    }
+
+    rpc DeleteProduct(ProductId) returns (Empty) {
+        option (google.api.http) = {
+            delete: "/v1/products/{id}"
+        };
+    }
+}
+
+message Empty {
+}
+
+message ProductFilters {
+    string name = 1;
+    ProductPriceFilter price = 2;
+}
+
+message ProductPriceFilter {
+    float from = 1;
+    float to = 2;
+}
+
+message Product {
+    uint64 id = 1;
+    string product_name = 2;
+    string company_name = 3;
+    float client_price = 4;
+    float purchase_price = 5;
+    uint32 count_on_warehouse = 6;
+}
+
+message ProductBody {
+    string product_name = 1;
+    string company_name = 2;
+    float client_price = 3;
+    float purchase_price = 4;
+    uint32 count_on_warehouse = 5;
+}
+
+message Products {
+    repeated Product products = 1;
+}
+
+message ProductPutRequest {
+    uint64 id = 1;
+    ProductBody product = 2;
+}
+
+message ProductId {
+    uint64 id = 1;
+}

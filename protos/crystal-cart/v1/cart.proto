@@ -1,0 +1,66 @@
+syntax="proto3";
+import "google/api/annotations.proto";
+package crystal_cart.v1;
+option go_package = "github.com/Dmitriy-M1319/crystal-cart/pkg/crystal_cart;crystal_cart";
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "crystal-services/products/v1/products.proto";
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+    info: {
+        title: "Cart Service";
+        version: "v1.0";
+    };
+
+    schemes: HTTP;
+    schemes: HTTPS;
+    consumes: "application/json";
+    produces: "application/json";
+};
+
+service CartService {
+    rpc CreateCart(UserEmail) returns (CartIdentifier) {
+        option (google.api.http) = {
+            post: "/v1/cart/create"
+            body: "*"
+        };
+    }
+
+    rpc AddProductToCart(CartProductInfo) returns (CartIdentifier) {
+        option (google.api.http) = {
+            post: "/v1/cart"
+            body: "*"
+        };
+    }
+
+    rpc GetCartProductsByUser(UserEmail) returns (Products) {
+        option (google.api.http) = {
+            get: "/v1/cart/{email}"
+        };
+    }
+
+    rpc DeleteProductFromCart(CartProductInfo) returns (CartIdentifier) {
+        option (google.api.http) = {
+            delete: "/v1/cart"
+        };
+    }
+}
+
+message UserEmail {
+    string email = 1;
+}
+
+message CartIdentifier {
+    int64 id = 1;
+}
+
+message CartProductInfo {
+     string userEmail = 1;
+     int64 productId = 2;
+}
+
+
+message Products {
+   repeated products.v1.Product products = 1;
+}
+
+
