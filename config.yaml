@@ -1,0 +1,30 @@
+logging:
+  address: 127.0.0.1:12221
+
+grpc:
+  host: 0.0.0.0
+  port: 12201
+  gatewayHost: 0.0.0.0
+  gatewayPort: 8083
+  maxConnectionIdle: 5 # Minutes
+  timeout: 15 # Seconds
+  maxConnectionAge: 5 # Minutes
+  jwtSecretKey: secret-key
+  jwtTimeLive: 72
+
+redis:
+  host: auth_redis
+  port: 6379
+  password: redis-password
+  database: 0
+
+product:
+  host: 127.0.0.1
+  port: 12202
+
+status:
+  host: 0.0.0.0
+  port: 8000
+  livenessPath: /live
+  readinessPath: /ready
+  versionPath: /version

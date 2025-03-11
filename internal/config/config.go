@@ -16,16 +16,6 @@ func GetConfigInstance() Config {
 	return Config{}
 }
 
-// Database - contains all parameters database connection.
-type Database struct {
-	Host       string `yaml:"host"`
-	Port       string `yaml:"port"`
-	User       string `yaml:"user"`
-	Password   string `yaml:"password"`
-	Migrations string `yaml:"migrations"`
-	Name       string `yaml:"name"`
-}
-
 type Grpc struct {
 	Host              string `yaml:"host"`
 	Port              string `yaml:"port"`
@@ -57,13 +47,18 @@ type Redis struct {
 	Database int64  `yaml:"database"`
 }
 
+type Product struct {
+	Host string `yaml:"host"`
+	Port string `yaml:"port"`
+}
+
 // Config - contains all configuration parameters in config package.
 type Config struct {
-	Database Database `yaml:"database"`
-	Grpc     Grpc     `yaml:"grpc"`
-	Status   Status   `yaml:"status"`
-	Redis    Redis    `yaml:"redis"`
-	Logging  Logging  `yaml:"logging"`
+	Grpc    Grpc    `yaml:"grpc"`
+	Status  Status  `yaml:"status"`
+	Redis   Redis   `yaml:"redis"`
+	Logging Logging `yaml:"logging"`
+	Product Product `yaml:"product"`
 }
 
 // ReadConfigYML - read configurations from file and init instance Config.

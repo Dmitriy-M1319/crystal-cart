@@ -4,6 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/Dmitriy-M1319/crystal-cart/internal/crystal-cart/api"
+	"github.com/Dmitriy-M1319/crystal-services/pkg/crystal-services/products/v1"
+	"google.golang.org/grpc/credentials/insecure"
 	"net"
 	"net/http"
 	"os"
@@ -74,7 +77,12 @@ func (srv *GrpcServer) Start(conf *config.Config) error {
 	)
 
 	// TODO: не забыть про сервисы
-	pb.RegisterCartServiceServer(grpcServer)
+	conn, err := grpc.NewClient(fmt.Sprintf("%s:%s", conf.Product.Host, conf.Product.Port),
+		grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		return fmt.Errorf("failed to connect to product server: %w", err)
+	}
+	pb.RegisterCartServiceServer(grpcServer, api.NewCartApiImplementation(products.NewProductsServiceClient(conn)))
 
 	go func() {
 		log.Info().Msgf("GRPC Server is listening on: %s", grpcAddr)
