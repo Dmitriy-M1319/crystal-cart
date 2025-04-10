@@ -27,7 +27,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1CartIdentifier"
+              "$ref": "#/definitions/crystal_cartv1Empty"
             }
           },
           "default": {
@@ -50,6 +50,13 @@
             "required": false,
             "type": "string",
             "format": "int64"
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
           }
         ],
         "tags": [
@@ -62,7 +69,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1CartIdentifier"
+              "$ref": "#/definitions/crystal_cartv1Empty"
             }
           },
           "default": {
@@ -94,7 +101,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1CartIdentifier"
+              "$ref": "#/definitions/crystal_cartv1Empty"
             }
           },
           "default": {
@@ -151,6 +158,9 @@
     }
   },
   "definitions": {
+    "crystal_cartv1Empty": {
+      "type": "object"
+    },
     "crystal_cartv1Products": {
       "type": "object",
       "properties": {
@@ -158,7 +168,7 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/v1Product"
+            "$ref": "#/definitions/v1ProductInfo"
           }
         }
       }
@@ -191,15 +201,6 @@
         }
       }
     },
-    "v1CartIdentifier": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "format": "int64"
-        }
-      }
-    },
     "v1CartProductInfo": {
       "type": "object",
       "properties": {
@@ -207,6 +208,10 @@
           "type": "string"
         },
         "productId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "count": {
           "type": "string",
           "format": "int64"
         }
@@ -235,6 +240,18 @@
         },
         "countOnWarehouse": {
           "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "v1ProductInfo": {
+      "type": "object",
+      "properties": {
+        "product": {
+          "$ref": "#/definitions/v1Product"
+        },
+        "count": {
+          "type": "string",
           "format": "int64"
         }
       }

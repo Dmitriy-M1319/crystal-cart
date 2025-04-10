@@ -18,14 +18,14 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 };
 
 service CartService {
-    rpc CreateCart(UserEmail) returns (CartIdentifier) {
+    rpc CreateCart(UserEmail) returns (Empty) {
         option (google.api.http) = {
             post: "/v1/cart/create"
             body: "*"
         };
     }
 
-    rpc AddProductToCart(CartProductInfo) returns (CartIdentifier) {
+    rpc AddProductToCart(CartProductInfo) returns (Empty) {
         option (google.api.http) = {
             post: "/v1/cart"
             body: "*"
@@ -38,7 +38,7 @@ service CartService {
         };
     }
 
-    rpc DeleteProductFromCart(CartProductInfo) returns (CartIdentifier) {
+    rpc DeleteProductFromCart(CartProductInfo) returns (Empty) {
         option (google.api.http) = {
             delete: "/v1/cart"
         };
@@ -54,13 +54,18 @@ message CartIdentifier {
 }
 
 message CartProductInfo {
-     string userEmail = 1;
-     int64 productId = 2;
+    string userEmail = 1;
+    int64 productId = 2;
+    int64 count = 3;
 }
 
+message ProductInfo {
+    products.v1.Product product = 1;
+    int64 count = 2;
+}
 
 message Products {
-   repeated products.v1.Product products = 1;
+   repeated ProductInfo products = 1;
 }
 
-
+message Empty {}
